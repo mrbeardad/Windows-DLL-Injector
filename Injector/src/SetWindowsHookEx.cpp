@@ -7,7 +7,7 @@ bool SetWindowsHookEx_type4(DWORD processId, LPCSTR dllPath) {
 	if (!hModDll) {
 		printf("Error in getting module handle for %s\n", dllPath);
 		printf("LastError : 0X%x\n", GetLastError());
-		system("PAUSE");
+		//system("PAUSE");
 		return false;
 	}
 
@@ -16,7 +16,7 @@ bool SetWindowsHookEx_type4(DWORD processId, LPCSTR dllPath) {
 	if (!procAddress) {
 		printf("Error in getting hook procedure address in %s\n", dllPath);
 		printf("LastError : 0X%x\n", GetLastError());
-		system("PAUSE");
+		//system("PAUSE");
 		return false;
 	}
 
@@ -29,7 +29,7 @@ bool SetWindowsHookEx_type4(DWORD processId, LPCSTR dllPath) {
 	if (hThreadSnap == INVALID_HANDLE_VALUE) {
 		printf("Could not get snapshot of threads\n");
 		printf("LastError : 0X%x\n", GetLastError());
-		system("PAUSE");
+		//system("PAUSE");
 		return false;
 	}
 
@@ -40,7 +40,7 @@ bool SetWindowsHookEx_type4(DWORD processId, LPCSTR dllPath) {
 	if (!Thread32First(hThreadSnap, &te32)) {
 		printf("Could not get first thread\n");
 		printf("LastError : 0X%x\n", GetLastError());
-		system("PAUSE");
+		//system("PAUSE");
 		return false;
 	}
 
@@ -69,25 +69,26 @@ bool SetWindowsHookEx_type4(DWORD processId, LPCSTR dllPath) {
 
 
 				printf("Setting hook in thread with ID %d\n", threadId);
-				HHOOK hookHandle = SetWindowsHookExA(WH_KEYBOARD, procAddress, hModDll, (DWORD)threadId);
+				HHOOK hookHandle = SetWindowsHookExA(WH_GETMESSAGE, procAddress, hModDll, (DWORD)threadId);
 
 				if (!hookHandle) {
 					printf("Error in Setting Hook in thread\n");
 					printf("LastError : 0X%x\n", GetLastError());
-					system("PAUSE");
+					//system("PAUSE");
 					return false;
 				}
 				else
 				{
 					printf("Hook Installed successfully via SetWindowsHookEx in process %d\n", processId);
-					system("PAUSE");
+					//system("PAUSE");
+					Sleep(1000); // sleep 1 second to avoid premature unhooking
 					UnhookWindowsHookEx(hookHandle);
 					return true;
 				}
 			}
 			else {
 				printf("Could not find suitable Thread\n");
-				system("PAUSE");
+				//system("PAUSE");
 			}
 				
 

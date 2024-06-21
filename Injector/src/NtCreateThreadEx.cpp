@@ -8,12 +8,12 @@ bool NtCreateThreadEx_Type2(LPCSTR DllPath, HANDLE hProcess) {
 	if (!LoadLibraryAddr) {
 		printf("Could note get real address of LoadLibraryA from kernel32.dll!\n");
 		printf("LastError : 0X%x\n", GetLastError());
-		system("PAUSE");
+		//system("PAUSE");
 		return false;
 	}
 
 	printf("LoadLibraryA is located at real address: 0X%p\n", (void*)LoadLibraryAddr);
-	Sleep(1000);
+	//Sleep(1000);
 	//system("PAUSE");
 	
 
@@ -22,12 +22,12 @@ bool NtCreateThreadEx_Type2(LPCSTR DllPath, HANDLE hProcess) {
 	if (!pDllPath) {
 		printf("Could not allocate Memory in target process\n");
 		printf("LastError : 0X%x\n", GetLastError());
-		system("PAUSE");
+		//system("PAUSE");
 		return false;
 	}
 
 	printf("Dll path memory allocated at: 0X%p\n", (void*)pDllPath);
-	Sleep(1000);
+	//Sleep(1000);
 	//system("PAUSE");
 	
 
@@ -37,12 +37,12 @@ bool NtCreateThreadEx_Type2(LPCSTR DllPath, HANDLE hProcess) {
 	if (!Written) {
 		printf("Could not write into the allocated memory\n");
 		printf("LastError : 0X%x\n", GetLastError());
-		system("PAUSE");
+		//system("PAUSE");
 		return false;
 	}
 
 	printf("Dll path memory was written at address : 0x%p\n", (void*)pDllPath);
-	Sleep(1000);
+	//Sleep(1000);
 	//system("PAUSE");
 
 	HMODULE modNtDll = GetModuleHandle("ntdll.dll");
@@ -50,7 +50,7 @@ bool NtCreateThreadEx_Type2(LPCSTR DllPath, HANDLE hProcess) {
 	if (!modNtDll) {
 		printf("Failed to get module handle for ntdll.dll\n");
 		printf("LastError : 0X%x\n", GetLastError());
-		system("PAUSE");
+		//system("PAUSE");
 		return false;
 	}
 
@@ -59,7 +59,7 @@ bool NtCreateThreadEx_Type2(LPCSTR DllPath, HANDLE hProcess) {
 	if (!funNtCreateThreadEx) {
 		printf("Failed to get NtCreateThreadEx function address from ntdll.dll\n");
 		printf("LastError: 0X%x\n", GetLastError());
-		system("PAUSE");
+		//system("PAUSE");
 		return false;
 	}
 
@@ -99,27 +99,27 @@ bool NtCreateThreadEx_Type2(LPCSTR DllPath, HANDLE hProcess) {
 	);
 
 	if (!hThread) {
-		printf("\nNtCreateThreadEx failed\n");
+		printf("NtCreateThreadEx failed\n");
 		printf("LastError: 0X%x\n", GetLastError());
 		if (VirtualFreeEx(hProcess, pDllPath, 0, MEM_RELEASE)) {
 			//VirtualFreeEx(hProc, reinterpret_cast<int*>(pDllPath) + 0X010000, 0, MEM_RELEASE);
 			printf("Memory was freed in target process\n");
-			Sleep(1000);
+			//Sleep(1000);
 		}
-		system("PAUSE");
+		//system("PAUSE");
 		return false;
 	}
 
 	printf("Thread started with NtCreateThread\n");
-	Sleep(1000);
+	//Sleep(1000);
 
 	WaitForSingleObject(hThread, INFINITE);
 
-	system("PAUSE");
+	//system("PAUSE");
 
 	if (VirtualFreeEx(hProcess, pDllPath, 0, MEM_RELEASE)) {
 		printf("Memory was freed in target process\n");
-		Sleep(1000);
+		//Sleep(1000);
 	}
 
 	CloseHandle(hThread);

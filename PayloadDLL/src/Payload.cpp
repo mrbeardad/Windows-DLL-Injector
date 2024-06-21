@@ -1,13 +1,22 @@
 #include "Payload.h"
+#include "string"
 
 void LogMessage(const char* message) {
 
-	// printf("%s\n", message);
+	 //printf("%s\n", message);
 
 	// exit with native api
-	pNtTerminateProcess pFuncNtTerminateProcess = (pNtTerminateProcess)GetProcAddress(GetModuleHandle("ntdll.dll"), "NtTerminateProcess");
+	//pNtTerminateProcess pFuncNtTerminateProcess = (pNtTerminateProcess)GetProcAddress(GetModuleHandle("ntdll.dll"), "NtTerminateProcess");
+    STARTUPINFO si{};
+    si.cb = sizeof(si);
+    PROCESS_INFORMATION pi{};
+    auto s = std::string("cmd.exe /k echo ") + message;
+    CreateProcessA(NULL, (LPSTR)s.c_str(), NULL, NULL, FALSE, CREATE_NEW_CONSOLE, NULL,
+                   NULL, &si, &pi);
+    CloseHandle(pi.hProcess); 
+    CloseHandle(pi.hThread); 
 
-	pFuncNtTerminateProcess((NTSTATUS)0);
+	//pFuncNtTerminateProcess((NTSTATUS)0);
 
 }
 
@@ -34,13 +43,13 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 
 		case DLL_THREAD_ATTACH:
 			//MessageBox(0, "Hello I'm DLL injected inside you GOOGLE CHROME !!!", "DLL_THREAD_ATTACH", MB_ICONINFORMATION);
-			LogMessage("Hello I'm DLL injected inside you in DLL_THREAD_ATTACH mode!!!");
+			//LogMessage("Hello I'm DLL injected inside you in DLL_THREAD_ATTACH mode!!!");
 			//exit(1);
 			break;
 
 		case DLL_THREAD_DETACH:
 			//MessageBox(0, "Hello I'm DLL injected inside you GOOGLE CHROME !!!", "DLL_THREAD_DETACH", MB_ICONINFORMATION);
-			LogMessage("Hello I'm DLL injected inside you in DLL_THRED_DETACH mode!!!");
+			//LogMessage("Hello I'm DLL injected inside you in DLL_THRED_DETACH mode!!!");
 			//exit(1);
 			break;
 
