@@ -73,6 +73,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)build\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)build\$(PlatformTarget)\$(Configuration)\$(ProjectName)</IntDir>
+    <TargetName>$(ProjectName)-$(PlatformTarget)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)build\$(PlatformTarget)\$(Configuration)\</OutDir>
@@ -82,10 +83,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)build\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)build\$(PlatformTarget)\$(Configuration)\$(ProjectName)</IntDir>
+    <TargetName>$(ProjectName)-$(PlatformTarget)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)build\$(PlatformTarget)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)build\$(PlatformTarget)\$(Configuration)\$(ProjectName)</IntDir>
+    <TargetName>$(ProjectName)-$(PlatformTarget)</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
